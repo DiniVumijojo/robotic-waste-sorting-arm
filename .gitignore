@@ -3,3 +3,4 @@ __pycache__/
 .venv/
 venv/
 recycling_arm/runs/
+recycling_arm/dataset/

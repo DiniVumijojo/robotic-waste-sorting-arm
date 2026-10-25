@@ -20,7 +20,7 @@ def classify_label(label):
 
 def main():
     model = YOLO("yolo11n.pt")
-    camera = cv2.VideoCapture(0)
+    camera = cv2.VideoCapture(0) 
 
     if not camera.isOpened():
         raise RuntimeError("Could not open camera. Try changing VideoCapture(0) to VideoCapture(1).")
