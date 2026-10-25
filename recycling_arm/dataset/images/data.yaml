@@ -1,0 +1,13 @@
+train: ../train/images
+val: ../valid/images
+test: ../test/images
+
+nc: 5
+names: ['metal_Items', 'other_Items', 'paper_Items', 'plastic_Items', 'plastic_bottle']
+
+roboflow:
+  workspace: makgotso-seopa
+  project: recycling-arm-sorter
+  version: 2
+  license: Private
+  url: https://app.roboflow.com/makgotso-seopa/recycling-arm-sorter/2
