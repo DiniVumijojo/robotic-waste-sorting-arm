@@ -3,7 +3,7 @@ import cv2
 from ultralytics import YOLO
 
 MODEL_PATH = "yolo11n.pt"
-CAMERA_INDEX = 0
+CAMERA_INDEX = 1
 
 def main():
     model = YOLO(MODEL_PATH)
@@ -34,6 +34,5 @@ def main():
         camera.release()
         cv2.destroyAllWindows()
 
-# FIXED: Unindented to global scope so it executes when run
 if __name__ == "__main__":
     main()

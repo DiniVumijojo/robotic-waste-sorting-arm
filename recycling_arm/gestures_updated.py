@@ -1,18 +1,12 @@
-
 import cv2
 import mediapipe as mp
 import math
 import time
 from pathlib import Path
 
-# ==========================================
-# SETTINGS
-# ==========================================
 
-CAMERA_INDEX = 0
+CAMERA_INDEX = 1
 
-# Keep serial disabled while testing.
-# This program does not send motor commands.
 ENABLE_SERIAL = False
 
 STABLE_SECONDS = 0.7
@@ -31,7 +25,6 @@ GESTURE_COMMANDS = {
     "peace": "PEACE",
 }
 
-# Connections between the 21 hand landmarks
 HAND_CONNECTIONS = [
     (0, 1), (1, 2), (2, 3), (3, 4),
     (0, 5), (5, 6), (6, 7), (7, 8),
@@ -42,9 +35,6 @@ HAND_CONNECTIONS = [
 ]
 
 
-# ==========================================
-# HELPER FUNCTIONS
-# ==========================================
 
 def distance(a, b):
     """Calculate distance between two landmarks."""
@@ -78,9 +68,6 @@ def joint_angle(a, b, c):
     return math.degrees(math.acos(cosine))
 
 
-# ==========================================
-# IMPROVED GESTURE CLASSIFIER
-# ==========================================
 
 def classify_gesture(landmarks):
     """
@@ -88,7 +75,6 @@ def classify_gesture(landmarks):
     finger joint angles.
     """
 
-    # MCP, PIP and TIP landmarks
     fingers = [
         (5, 6, 8),     # Index
         (9, 10, 12),   # Middle
@@ -106,20 +92,17 @@ def classify_gesture(landmarks):
             landmarks[tip]
         )
 
-        # A straighter finger has a larger angle.
         is_extended = angle > 155
         extended.append(is_extended)
 
     index, middle, ring, pinky = extended
 
-    # Check whether the thumb is extended.
     thumb_extended = (
         distance(landmarks[4], landmarks[17])
         >
         distance(landmarks[3], landmarks[17]) * 1.15
     )
 
-    # PEACE SIGN
     if (
         index
         and middle
@@ -128,8 +111,6 @@ def classify_gesture(landmarks):
     ):
         return "peace"
 
-    # POINTING
-    # Thumb can be folded or partially extended.
     if (
         index
         and not middle
@@ -138,11 +119,9 @@ def classify_gesture(landmarks):
     ):
         return "point"
 
-    # OPEN PALM
     if all(extended):
         return "open palm"
 
-    # FIST OR THUMBS UP
     if not any(extended):
 
         if (
@@ -155,13 +134,9 @@ def classify_gesture(landmarks):
         if not thumb_extended:
             return "fist"
 
-    # Unapproved or unclear gesture
     return "unknown"
 
 
-# ==========================================
-# DRAW HAND LANDMARKS
-# ==========================================
 
 def draw_hand(frame, landmarks):
     """Draw landmarks and connecting lines."""
@@ -197,10 +172,6 @@ def draw_hand(frame, landmarks):
         )
 
 
-# ==========================================
-# MAIN PROGRAM
-# ==========================================
-
 def main():
 
     if not MODEL_PATH.is_file():
@@ -213,7 +184,6 @@ def main():
             "Serial control is disabled in this test."
         )
 
-    # MediaPipe Tasks API
     BaseOptions = mp.tasks.BaseOptions
     HandLandmarker = mp.tasks.vision.HandLandmarker
     HandLandmarkerOptions = (
@@ -232,7 +202,6 @@ def main():
         min_tracking_confidence=0.5,
     )
 
-    # Open laptop camera
     camera = cv2.VideoCapture(
         CAMERA_INDEX,
         cv2.CAP_DSHOW
@@ -316,9 +285,7 @@ def main():
                         landmarks
                     )
 
-                # ----------------------------------
-                # GESTURE STABILITY
-                # ----------------------------------
+        
 
                 now = time.monotonic()
 
@@ -368,10 +335,7 @@ def main():
 
                         last_command_time = now
 
-                # ----------------------------------
-                # DISPLAY
-                # ----------------------------------
-
+            
                 cv2.putText(
                     frame,
                     f"Gesture: {detected_gesture}",

@@ -1,6 +1,7 @@
-train: ../train/images
-val: ../valid/images
-test: ../test/images
+path: C:/Users/seopa/robotic-waste-sorting-arm/recycling_arm
+train: train/images
+val: valid/images
+test: test/images
 
 nc: 5
 names: ['metal_Items', 'other_Items', 'paper_Items', 'plastic_Items', 'plastic_bottle']

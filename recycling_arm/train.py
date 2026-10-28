@@ -3,9 +3,8 @@ from ultralytics import YOLO
 def main():
     model = YOLO("yolo11n.pt")
     
-    # Use the absolute path directly to avoid any relative path mismatch
     results = model.train(
-        data=r"C:\Users\seopa\robotic-waste-sorting-arm\recycling_arm\dataset\data.yaml",
+        data=r"C:\Users\seopa\robotic-waste-sorting-arm\recycling_arm\dataset\images\data.yaml",
         epochs=50,
         imgsz=640,
         batch=16,

@@ -1,7 +1,7 @@
 #include <Servo.h>
 
 Servo servos[4];
-const byte servoPins[4] = {3, 5, 6, 9}; // base, shoulder, elbow, gripper
+const byte servoPins[4] = {3, 5, 6, 9}; 
 
 const int HOME[4] = {90, 90, 90, 90};
 const int PICK[4] = {90, 70, 110, 40};

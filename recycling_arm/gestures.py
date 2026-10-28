@@ -2,8 +2,7 @@ import cv2
 import mediapipe as mp
 import math
 import time
-import serial
-from serial.tools import list_ports
+
 
 CAMERA_INDEX = 0
 SERIAL_PORT = "COM3"
